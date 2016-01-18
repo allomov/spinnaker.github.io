@@ -8,27 +8,50 @@ lang: en
 * Table of contents. This line is required to start the list.
 {:toc}
 
-#User Guide
+#Spinnaker User Guide
 
-##Starting Spinnaker
+## Spinnaker Concepts ##
 
-##Understanding the Clusters View
+The following section introduces the terms used within Spinnaker. 
 
-##Working with Pipelines
+### Application-Centric Cloud Model ###
 
-##Deployment Strategies
+Spinnaker helps simplify cloud deployment by associating cloud objects with applications and projects.  
 
-Deployment strategies are specialized pipelines that are bound to the deploy stage of an execution. They can be selected as strategies when defining the deploy stage of a standard pipeline or via clone server group action in the clusters view.
+An **application** is the most atomic unit of deployment in Spinnaker. It represents a deployable that you would normally organize into a cloud image, container or similar mechanism. 
 
-To use a deployment strategy, select 'custom' in the strategy dropdown. Then, select the strategy by name and fill in the appropiate parameters if needed.
+Cloud objects such as load balancers, security groups and autoscaling server groups are all organized under an individual application. Spinnaker enforces the naming conventions from Frigga, which help easily associate a cloud object with it's corresponding application.  
 
-To define a new deployment strategy, go to the Pipelines tab and click on the Configure... dropdown. Select 'create new' and set the type to be 'strategy'. Click on save to edit your strategy. 
+Spinnaker lets you group several applications into **projects**. One application can be tracked by several projects.  The project dashboard in Spinnaker provides a bird's-eye view that helps you distill interesting information across different applications in one place.
 
-Strategies are like regular pipelines, with a few key differences:
+If configured properly, Spinnaker is able to manage resources in multiple **accounts** across multiple **cloud providers**. For example, you might want to create an account for sensitive billing information and one for general use. 
 
-1. The deploy stage of a strategy will not let you add clusters, since these will be inherited from the deploy operation when the strategy is ran.
-2. In a normal pipeline, you usually need to set the account, region and cluster for some stages for them to work. These fields are suppressed when setting up a strategy and are inherited from the deploy operation.
-3. You can't set triggers on a strategy.
-4. Strategies don't allow for the Canary, Find Image and Bake stages. 
+Additionally, you can group different clusters within your application across a **stack**. For a given application or set of applications, you might want to have a development, staging and production stack. 
 
-When a deployment strategy is ran, it will inject the following parameters into the pipeline: application, region, credentials and amiName. These values would be derived from the deploy stage that calls the strategy and available to the templated pipelines mechanism in Spinnaker. If a strategy parameter exists with the same name as the automatically calculated strategy, the user-supplied parameter will take precedence over the derived value.
+### Execution Model ###
+
+Spinnaker provides two distinct mechanisms to orchestrate your cloud deployments. 
+
+A **task** is what happens when you make a change directly via the Spinnaker UI or by calling the API. For example, when you create a new application in the infrastructure screen or resize a server group in the clusters screen, a new task is created and tracked. 
+
+A **pipeline** allows you to organize more complex cloud deployment instructions in a set of repeatable, automated **stages**.  Pipelines can be kicked off by hand, or listen to events from external sources like Jenkins via automated **triggers**. Spinnaker keeps track of pipeline **executions**, which are records of what happens each time a pipeline runs. 
+
+## Managing Applications ##
+
+This section describes how to manage and configure applications in Spinnaker.
+
+## Project Dashboards ##
+
+This section describes how you can make use of the project dashboards in Spinnaker to look at information across applications.
+
+## Working with Cloud Objects ##
+
+This section describes how you can use Spinnaker to navigate your resources on the cloud.
+
+## Pipelines ##
+
+This section shows you how to use deployment pipelines in Spinnaker.
+
+## Using The Spinnaker API ##
+
+This section describes how to access and interact with the Spinnaker API. 
